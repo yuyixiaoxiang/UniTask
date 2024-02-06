@@ -79,8 +79,8 @@ namespace Cysharp.Threading.Tasks.Linq
             {
                 this.cancellationToken = cancellationToken;
                 length = sources.Length;
-                states = ArrayPool<MergeSourceState>.Shared.Rent(length);
-                enumerators = ArrayPool<IUniTaskAsyncEnumerator<T>>.Shared.Rent(length);
+                states = Cysharp.Threading.Tasks.Internal.ArrayPool<MergeSourceState>.Shared.Rent(length);
+                enumerators = Cysharp.Threading.Tasks.Internal.ArrayPool<IUniTaskAsyncEnumerator<T>>.Shared.Rent(length);
                 for (var i = 0; i < length; i++)
                 {
                     enumerators[i] = sources[i].GetAsyncEnumerator(cancellationToken);
@@ -149,8 +149,8 @@ namespace Cysharp.Threading.Tasks.Linq
                     await enumerators[i].DisposeAsync();
                 }
 
-                ArrayPool<MergeSourceState>.Shared.Return(states, true);
-                ArrayPool<IUniTaskAsyncEnumerator<T>>.Shared.Return(enumerators, true);
+                Cysharp.Threading.Tasks.Internal.ArrayPool<MergeSourceState>.Shared.Return(states, true);
+                Cysharp.Threading.Tasks.Internal.ArrayPool<IUniTaskAsyncEnumerator<T>>.Shared.Return(enumerators, true);
             }
 
             static void GetResultAt(object state)
